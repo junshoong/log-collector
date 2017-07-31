@@ -3,6 +3,7 @@ import socket
 from subprocess import check_output
 
 host_ip = socket.gethostbyname(socket.gethostname())
+KERNEL_INIT_MSG = "Initializing cgroup subsys cpuset"
 
 
 def var_log_messages():
@@ -25,6 +26,14 @@ def check_regular():
     """
     check (ir)regular shutdown
     """
+
+    with open("/var/log/messages","r") as f:
+        lines = f.readlines()
+        for line in lines:
+            if KERNEL_INIT_MSG in line:
+                print(line)
+
+    
     return False
 
    
