@@ -7,7 +7,7 @@
 <body>
 <ul>
 {% for c in clients %}
-<li><a href={{ url_for('client', ip=c) }}>{{ c }}</a></li>
+<li><a href={{ url_for('client', ip=c.dir) }}>{{ c.dir }} {{ c.time }}</a></li>
 {% endfor %}
 </ul>
 </body>

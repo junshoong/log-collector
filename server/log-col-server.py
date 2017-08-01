@@ -1,9 +1,24 @@
+import os
+import time
+
 from flask import Flask
 from flask import request
 from flask import render_template
-import os
+
 app = Flask(__name__)
 log_path = app.root_path+'/clients'
+
+
+def newest_ip(ip):
+    m = None
+    name = ''
+    for p, d, fs in os.walk(os.path.join(log_path,ip)):
+        for f in fs:
+            tmp =  os.path.getmtime(os.path.join(p, f))
+            if m < tmp:
+                m = tmp
+                name = f
+    return time.ctime(m), name
 
 def save_file(request):
     client_ip = request.remote_addr
@@ -13,21 +28,23 @@ def save_file(request):
         os.mkdir(full_path)
     for k, v in data.items():
         with open(full_path +'/'+k+'.log', 'wb') as f:
-            print(k, v)
             v = v.encode('utf-8')
             f.write(v)
 
 
 @app.route('/')
 def index():
-    clients = os.listdir(log_path)
+    clients = []
+    for d in os.listdir(log_path):
+        clients.append({'dir': d, 'time': newest_ip(d)[0]})
+
+
+
     return render_template('index.html', clients=clients)
     
 
-
 @app.route('/collect', methods=['POST'])
 def collect():
-    print(request)
     if request.method == 'POST':
         save_file(request)
         return 'Collecting!'
@@ -38,6 +55,7 @@ def client(ip):
     files = os.listdir(os.path.join(log_path, ip))
     return render_template('client.html', ip=ip, files=files)
 
+
 @app.route('/<ip>/<filename>')
 def viewer(ip, filename):
     log = os.path.join(log_path, ip, filename)
@@ -46,7 +64,6 @@ def viewer(ip, filename):
         text = f.read()
 
     text = text.decode('utf-8')
-    print(text)
 
     return render_template('log.html', text=text)
 
