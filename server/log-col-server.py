@@ -14,6 +14,7 @@ def save_file(request):
     for k, v in data.items():
         with open(full_path +'/'+k+'.log', 'wb') as f:
             print(k, v)
+            v = v.encode('utf-8')
             f.write(v)
 
 
@@ -44,7 +45,10 @@ def viewer(ip, filename):
     with open(log, 'rb') as f:
         text = f.read()
 
-    return text
+    text = text.decode('utf-8')
+    print(text)
+
+    return render_template('log.html', text=text)
 
 
 if __name__ == '__main__':
