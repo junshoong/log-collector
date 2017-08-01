@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>
+</title>
+</head>
+<body>
+<ul>
+{% for f in files %}
+<li><a href={{ url_for('viewer', ip=ip, filename=f) }}>{{ f }}</a></li>
+{% endfor %}
+</ul>
+</body>
+</html>
