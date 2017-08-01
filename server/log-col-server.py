@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+from flask import render_template
 import os
 app = Flask(__name__)
 log_path = app.root_path+'/clients'
@@ -17,10 +18,9 @@ def save_file(request):
 
 
 @app.route('/')
-def hello_world():
+def index():
     clients = os.listdir(log_path)
-    
-    return '\n'.join(clients)
+    return render_template('index.html', clients=clients)
     
 
 
@@ -33,10 +33,18 @@ def collect():
 
 
 @app.route('/<ip>')
-def view(ip):
+def client(ip):
     files = os.listdir(os.path.join(log_path, ip))
+    return render_template('client.html', ip=ip, files=files)
 
-    return '\n'.join(files)
+@app.route('/<ip>/<filename>')
+def viewer(ip, filename):
+    log = os.path.join(log_path, ip, filename)
+    text = ''
+    with open(log, 'rb') as f:
+        text = f.read()
+
+    return text
 
 
 if __name__ == '__main__':
