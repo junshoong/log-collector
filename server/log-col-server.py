@@ -31,7 +31,7 @@ def index():
 def collect():
     if request.method == 'POST':
         save_file(request)
-        return
+        return 'Collecting!'
 
 
 @app.route('/favicon.ico')
