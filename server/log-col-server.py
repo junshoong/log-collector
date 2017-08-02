@@ -1,5 +1,4 @@
 import os
-import time
 
 from flask import Flask
 from flask import request
@@ -7,15 +6,14 @@ from flask import render_template
 from flask import send_from_directory
 
 app = Flask(__name__)
-log_path = app.root_path+'/clients'
+log_path = app.root_path+'/logs'
 
 
 def save_file(request):
-    client_ip = request.remote_addr
-    now = time.strftime("%Y%m%dT%H%M%S")
     data = request.get_json()
+    prefix = data.pop('prefix')
     for k, v in data.items():
-        filename = '-'.join([now, client_ip, k])+'.log'
+        filename = prefix + k + '.log'
         with open(os.path.join(log_path, filename), 'wb') as f:
             v = v.encode('utf-8')
             f.write(v)
@@ -31,7 +29,7 @@ def index():
 def collect():
     if request.method == 'POST':
         save_file(request)
-        return 'Collecting!'
+        return
 
 
 @app.route('/favicon.ico')
