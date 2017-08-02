@@ -54,11 +54,17 @@ def viewer(filename):
 
     if 'sar' in filename:
         text = '<pre class="sar">'+text+'</pre>'
-        # text = ''.join(['<pre>' + s + '</pre>' for s in text.split('\n')])
         return render_template('sar.html', text=text)
 
     text = ''.join(['<p>' + s + '</p>' for s in text.split('\n')])
     return render_template('log.html', text=text)
+
+
+@app.route('/download')
+def download():
+    f = request.args.get('f')
+    return send_from_directory(directory=log_path, filename=f, mimetype='text/plain')
+    
 
 
 if __name__ == '__main__':
