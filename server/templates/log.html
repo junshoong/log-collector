@@ -2,11 +2,24 @@
 <html>
 <head>
     <title> </title>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'jquery-3.2.1.slim.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'main.css') }}" type="text/css">
 </head>
 <body>
 {% autoescape false %}
-{{ text | replace('\n','<br/>') }}
+{{ text }}
 {% endautoescape %}
+<script>
+$.expr[':'].contains = $.expr.createPseudo(function(arg) {
+    return function(elem) {
+        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >=0;
+    }
+});
+
+$('p:contains("fault")').addClass('mark');
+$('p:contains("error")').addClass('mark');
+</script>
 </body>
 </html>
 

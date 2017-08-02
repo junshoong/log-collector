@@ -1,0 +1,11 @@
+body {
+    font-family: Consolas, monospace;
+}
+p {
+    margin: 0px;
+    font-size: 1em;
+}
+p.mark {
+    background-color: pink;
+}
+

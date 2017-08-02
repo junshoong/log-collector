@@ -44,6 +44,7 @@ def viewer(filename):
     with open(log, 'rb') as f:
         text = f.read()
     text = text.decode('utf-8')
+    text = ''.join(['<p>' + s + '</p>' for s in text.split('\n')])
     return render_template('log.html', text=text)
 
 
