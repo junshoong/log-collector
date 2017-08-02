@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>{% block title %}{% endblock %}</title>
+<title>{% block title %}SELOG{% endblock %}</title>
 <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.2.1.slim.min.js') }}"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename = 'bootstrap.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ url_for('static', filename = 'main.css') }}" type="text/css">
@@ -9,7 +9,16 @@
 {% endblock %}
 </head>
 <body>
+<nav class="navbar navbar-default navbar-fiexd-top">
+<div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{{ url_for('index') }}">SELOG</a>
+    </div>
+</div>
+</nav>
+<div class="container-fluid">
 {% block content %}
 {% endblock %}
+</div>
 </body>
 </html>
