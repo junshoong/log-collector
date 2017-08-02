@@ -12,15 +12,17 @@
             <th>Date and Time</th>
             <th>IP</th>
             <th>FileName</th>
+            <th>Download</th>
         </tr>
     </thead>
     <tbody>
     {% for f in files %}
     {% set data = f.split('-') %}
-        <tr href={{ url_for('viewer', filename=f) }}>
+        <tr>
             <td>{{ data[0] }} </td>
             <td>{{ data[1] }}</td>
-            <td>{{ data[2] }}</td>
+            <td><a href="{{ url_for('viewer', filename=f) }}">{{ data[2] }}</a></td>
+            <td><a href="{{ url_for('download', f=f) }}" download>down</a></td>
         </tr>
     {% endfor %}
     </tbody>
@@ -31,13 +33,6 @@ $(document).ready(function() {
         "order": [[ 0, "desc" ]],
         paging: false
     });
-    $('#logs tr').click(function() {
-        var href = $(this).attr("href");
-        if(href) {
-            window.location = href;
-        }
-    });
-
 });
 </script>
 {% endblock %}

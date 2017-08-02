@@ -65,7 +65,7 @@ def viewer(filename):
 @app.route('/download')
 def download():
     f = request.args.get('f')
-    return send_from_directory(directory=LOG_PATH, filename=f, mimetype='text/plain')
+    return send_from_directory(directory=LOG_PATH, filename=f, as_attachment=True, mimetype='text/plain')
     
 
 
