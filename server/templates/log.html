@@ -12,7 +12,12 @@ $.expr[':'].contains = $.expr.createPseudo(function(arg) {
 });
 
 $('p:contains("fault")').addClass('mark');
+$('p:contains("fail")').addClass('mark');
 $('p:contains("error")').addClass('mark');
+$('p').click(function() {
+    var str = $(this).text().split(' ').slice(5).join(' ');
+    window.open('https://www.google.co.kr/search?q=' + str, '_blank');
+});
 </script>
 {% endblock %}
 

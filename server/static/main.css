@@ -5,8 +5,11 @@ p {
     margin: 0px;
     font-size: 1em;
 }
+p:hover {
+    background-color: #f0f0f0;
+}
 p.mark {
-    background-color: pink;
+    background-color: #33f0f0;
 }
 
 #logs tr:hover {
