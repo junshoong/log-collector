@@ -4,6 +4,7 @@ import time
 from flask import Flask
 from flask import request
 from flask import render_template
+from flask import send_from_directory
 
 app = Flask(__name__)
 log_path = app.root_path+'/clients'
@@ -19,6 +20,7 @@ def newest_ip(ip):
                 m = tmp
                 name = f
     return time.ctime(m), name
+
 
 def save_file(request):
     client_ip = request.remote_addr
@@ -37,9 +39,6 @@ def index():
     clients = []
     for d in os.listdir(log_path):
         clients.append({'dir': d, 'time': newest_ip(d)[0]})
-
-
-
     return render_template('index.html', clients=clients)
     
 
@@ -48,6 +47,11 @@ def collect():
     if request.method == 'POST':
         save_file(request)
         return 'Collecting!'
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(app.root_path,'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @app.route('/<ip>')
@@ -62,13 +66,10 @@ def viewer(ip, filename):
     text = ''
     with open(log, 'rb') as f:
         text = f.read()
-
     text = text.decode('utf-8')
-
     return render_template('log.html', text=text)
 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
-
 
