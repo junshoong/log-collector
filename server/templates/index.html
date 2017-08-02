@@ -2,11 +2,13 @@
 
 {% block static %}
 <script type="text/javascript" src="{{ url_for('static', filename='jquery.dataTables.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='dataTables.rowGroup.min.js') }}"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='jquery.dataTables.min.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ url_for('static', filename='rowGroup.dataTables.min.css') }}" type="text/css">
 {% endblock %}
 
 {% block content %}
-<table id='logs'>
+<table id="logs" class="display" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th>Date and Time</th>
@@ -31,7 +33,10 @@
 $(document).ready(function() {
     $('#logs').DataTable( {
         "order": [[ 0, "desc" ]],
-        paging: false
+        paging: false,
+        rowGroup: {
+            dataSrc: 0
+        }
     });
 });
 </script>
