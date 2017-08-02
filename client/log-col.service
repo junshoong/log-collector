@@ -7,4 +7,4 @@ Type=idle
 ExecStart=/usr/bin/python /root/log-collector/client/log-col-client.py
 
 [Install]
-WantedBy=multi.user.target
+WantedBy=multi-user.target
