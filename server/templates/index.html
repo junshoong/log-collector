@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>
-</title>
-<!--<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
-<script type="text/javascript" src="{{ url_for('static', filename='jquery-3.2.1.slim.min.js') }}"></script>
+{% extends 'base.html' %}
+
+{% block static %}
 <script type="text/javascript" src="{{ url_for('static', filename='jquery.dataTables.min.js') }}"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='jquery.dataTables.min.css') }}" type="text/css">
-</head>
-<body>
-<table id='asdf'>
+{% endblock %}
+
+{% block content %}
+<table id='logs'>
     <thead>
         <tr>
             <th>Date and Time</th>
@@ -20,22 +17,27 @@
     <tbody>
     {% for f in files %}
     {% set data = f.split('-') %}
-    <a href={{ url_for('viewer', filename=f) }}>
-        <tr>
+        <tr href={{ url_for('viewer', filename=f) }}>
             <td>{{ data[0] }} </td>
             <td>{{ data[1] }}</td>
             <td>{{ data[2] }}</td>
         </tr>
-    </a>
     {% endfor %}
     </tbody>
 </table>
 <script>
 $(document).ready(function() {
-    $('#asdf').DataTable();
-});
-//$('file_list').DataTable( {
+    $('#logs').DataTable( {
+        "order": [[ 0, "desc" ]],
+        paging: false
+    });
+    $('#logs tr').click(function() {
+        var href = $(this).attr("href");
+        if(href) {
+            window.location = href;
+        }
+    });
 
+});
 </script>
-</body>
-</html>
+{% endblock %}

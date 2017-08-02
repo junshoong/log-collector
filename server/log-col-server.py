@@ -3,7 +3,9 @@ import os
 from flask import Flask
 from flask import request
 from flask import render_template
+from flask import redirect
 from flask import send_from_directory
+from flask import url_for
 
 app = Flask(__name__)
 log_path = app.root_path+'/logs'
@@ -35,6 +37,11 @@ def collect():
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(app.root_path,'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+
+@app.route('/images/<path>')
+def images(path):
+    return redirect(url_for('static', filename='images/'+path))
 
 
 @app.route('/<filename>')

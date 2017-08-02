@@ -1,4 +1,4 @@
-body {
+body p {
     font-family: Consolas, monospace;
 }
 p {
@@ -7,5 +7,9 @@ p {
 }
 p.mark {
     background-color: pink;
+}
+
+#logs tr:hover {
+    background-color: #f0f0f0;
 }
 
