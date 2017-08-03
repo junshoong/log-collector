@@ -20,6 +20,20 @@ def last_down_time():
     str_down_time = ' '.join(last_boot.split()[9:14])
     down_time = datetime.strptime(str_down_time, '%c')
     return down_time
+
+
+def httpd_error():
+    with open("/var/log/httpd/error_log", "r") as f:
+        lines = f.readlines()
+        dump = ''.join(lines[-MESSAGE_LINE:])
+    return dump
+
+
+def httpd_access():
+    with open("/var/log/httpd/access_log", "r") as f:
+        lines = f.readlines()
+        dump = ''.join(lines[-MESSAGE_LINE:])
+    return dump
     
 
 def var_log_messages():
@@ -111,6 +125,8 @@ if __name__ == '__main__':
         logs = dict()
         logs['var_log_messages'] = var_log_messages()
         logs['sar_all'] = sar()
+        logs['httpd_access'] = httpd_access()
+        logs['httpd_error'] = httpd_error()
         logs['prefix'] = save_file(logs)
         requests.post(URL+'/collect', json=logs)
         print('send your logs '+URL)
