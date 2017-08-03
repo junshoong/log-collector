@@ -71,12 +71,10 @@ def sar(option='all'):
     s_time = e_time - timedelta(hours=1)
     time_slice_args = ['-s', s_time.strftime('%H:%M:%S'), '-e', e_time.strftime('%H:%M:%S')]
     
-    while len(dump) < 5:
-        date = d.strftime('%d')
-        command = ['sar', '-f', '/var/log/sa/sa'+date] + arg + time_slice_args
-        print('command : '+ ' '.join(command))
-        dump = check_output(command).strip().split('\n')
-        d = d - timedelta(days=1)
+    date = d.strftime('%d')
+    command = ['sar', '-f', '/var/log/sa/sa'+date] + arg + time_slice_args
+    print('command : '+ ' '.join(command))
+    dump = check_output(command)
 
     return dump
 
