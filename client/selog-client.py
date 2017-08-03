@@ -6,7 +6,7 @@ from subprocess import check_output
 
 URL = "http://10.33.12.210"
 HOST_IP = socket.gethostbyname(socket.gethostname())
-LOG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logs')
+LOG_PATH = "/var/log/selog"
 MESSAGE_LINE = 300
 SHUTDOWN_MSG = "exiting on signal 15"
 KERNEL_INIT_MSG = "kernel: Initializing cgroup subsys cpuset"
