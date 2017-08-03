@@ -38,7 +38,7 @@ def collect():
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(app.root_path,'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory(app.root_path,'static/favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @app.route('/images/<path>')
@@ -65,7 +65,9 @@ def viewer(filename):
 @app.route('/download')
 def download():
     f = request.args.get('f')
-    return send_from_directory(directory=LOG_PATH, filename=f, as_attachment=True, mimetype='text/plain')
+    if f == 'client.zip':
+        return send_from_directory(app.root_path, f, as_attachment=True, mimetype='application/zip')
+    return send_from_directory(LOG_PATH, f, as_attachment=True, mimetype='text/plain')
     
 
 

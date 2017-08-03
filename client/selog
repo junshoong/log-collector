@@ -1,12 +1,12 @@
 #!/bin/sh
 #
-# log-collector-client autostarter
+# selog client autostarter
 #
 # chkconfig: - 64 36
 # Default-Start: 2 3 4 5
 # Default-Stop: 0 1 2 3 4 6
 # Required-Start:
-# description: log-collector-client autostarter
+# description: selog is startup log send system
 # processname: python
 # pidfile: none
 
@@ -20,7 +20,7 @@
 [ "$NETWORKING" = "no" ] && exit 0
 
 USER="root"
-APPNAME="log-col"
+APPNAME="selog"
 APPBIN="/usr/bin/python"
 APP="/root/$APPNAME/$APPNAME-client.py"
 # LOGPATH=$(dirname $LOGFILE)

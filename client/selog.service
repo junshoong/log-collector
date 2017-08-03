@@ -1,0 +1,10 @@
+[Unit]
+Description=selog-client
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/python /root/selog/client/selog-client.py
+
+[Install]
+WantedBy=multi-user.target

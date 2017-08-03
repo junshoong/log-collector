@@ -1,6 +1,6 @@
 #!/bin/sh
 
 mkdir ./logs
-cp ./log-col.service /lib/systemd/system/
-systemctl enable log-col
-systemctl status log-col
+cp ./selog.service /lib/systemd/system/
+systemctl enable selog
+systemctl status selog
