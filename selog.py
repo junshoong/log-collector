@@ -58,6 +58,11 @@ def viewer(filename):
         text = '<pre class="sar">'+text+'</pre>'
         return render_template('sar.html', text=text)
 
+    elif 'httpd_access' in filename:
+        text = ''.join(['<p>' + s + '</p>' for s in text.split('\n')])
+        return render_template('httpd_access.html', text=text)
+
+
     text = ''.join(['<p>' + s + '</p>' for s in text.split('\n')])
     return render_template('log.html', text=text)
 
