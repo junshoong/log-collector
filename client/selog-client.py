@@ -22,6 +22,13 @@ def last_down_time():
     return down_time
 
 
+def secure():
+    with open("/var/log/secure", "r") as f:
+        lines = f.readlines()
+        dump = ''.join(lines[-MESSAGE_LINE:])
+    return dump
+
+
 def httpd_error():
     with open("/var/log/httpd/error_log", "r") as f:
         lines = f.readlines()

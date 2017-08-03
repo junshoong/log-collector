@@ -8,9 +8,19 @@ p {
 p:hover {
     background-color: #f0f0f0;
 }
-p.mark {
-    background-color: #f03333;
+p.fatal {
+    background-color: #ffcccc;
+    font-weight: bold;
 }
+
+p.error {
+    background-color: #ffeeee;
+}
+
+p.warn {
+    background-color: #fffccc;
+}
+    
 
 #logs tr:hover {
     background-color: #f0f0f0;
