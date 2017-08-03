@@ -2,6 +2,7 @@ import os
 import socket
 import requests
 import time
+from datetime import datetime, timedelta
 from subprocess import check_output
 
 URL = "http://10.33.12.210"
@@ -11,6 +12,15 @@ MESSAGE_LINE = 300
 SHUTDOWN_MSG = "exiting on signal 15"
 KERNEL_INIT_MSG = "kernel: Initializing cgroup subsys cpuset"
 
+
+# maybe...
+def last_down_time():
+    last_cmd = check_output(['last', '-FR', 'reboot']).strip()
+    last_boot = last_cmd.split('\n')[1]
+    str_down_time = ' '.join(last_boot.split()[9:14])
+    down_time = datetime.strptime(str_down_time, '%c')
+    return down_time
+    
 
 def var_log_messages():
     with open("/var/log/messages", "r") as f:
@@ -22,15 +32,53 @@ def var_log_messages():
     return dump
 
 
-def sar_cpu():
-    dump = check_output(['sar', '-u', 'ALL'])
+def sar(option='all'):
+    if option == 'cpu':
+        arg = ['-u', 'ALL']
+    elif option == 'paging':
+        arg = ['-B']
+    elif option == 'io':
+        arg = ['-b']
+    elif option == 'device':
+        arg = ['-d']
+    elif option == 'hugepage':
+        arg = ['-H']
+    elif option == 'queue':
+        arg = ['-q']
+    elif option == 'memorypage':
+        arg = ['-R']
+    elif option == 'memory':
+        arg = ['-r']
+    elif option == 'swap':
+        arg = ['-S']
+    elif option == 'files':
+        arg = ['-v']
+    elif option == 'swapping':
+        arg = ['-W']
+    elif option == 'task':
+        arg = ['-w']
+    elif option == 'tty':
+        arg = ['-y']
+    # -n keyword | ALL
+    elif option == 'network':
+        arg = ['-n']
+    else:
+        arg = ['-A']
+
+    dump = []
+    d = datetime.today()
+    e_time = last_down_time()
+    s_time = e_time - timedelta(hours=1)
+    time_slice_args = ['-s', s_time.strftime('%H:%M:%S'), '-e', e_time.strftime('%H:%M:%S')]
+    
+    while len(dump) < 5:
+        date = d.strftime('%d')
+        command = ['sar', '-f', '/var/log/sa/sa'+date] + arg + time_slice_args
+        print('command : '+ ' '.join(command))
+        dump = check_output(command).strip().split('\n')
+        d = d - timedelta(days=1)
+
     return dump
-
-
-def sar_all():
-    dump = check_output(['sar', '-A'])
-    return dump
-
 
 def check_regular():
     """
@@ -64,11 +112,11 @@ if __name__ == '__main__':
     if check_regular():
         logs = dict()
         logs['var_log_messages'] = var_log_messages()
-        logs['sar_cpu'] = sar_cpu()
-        logs['sar_all'] = sar_all()
+        logs['sar_all'] = sar()
         logs['prefix'] = save_file(logs)
         requests.post(URL+'/collect', json=logs)
         print('send your logs '+URL)
 
     else:
         print('your last shutdown is normal')
+
