@@ -103,7 +103,7 @@ def sar(option='all'):
 
     return dump
 
-def check_regular():
+def is_irregular():
     """
     check (ir)regular shutdown
     """
@@ -115,7 +115,9 @@ def check_regular():
 
         for line in lines[last_boot-5:last_boot]:
             if SHUTDOWN_MSG in line:
-                return False
+                if 'rsyslogd' in line:
+                    return False
+
     return True
    
 
@@ -132,7 +134,7 @@ def save_file(logs):
 
 
 if __name__ == '__main__':
-    if check_regular():
+    if is_irregular():
         logs = dict()
         logs['var_log_messages'] = var_log_messages()
         logs['sar_all'] = sar()
