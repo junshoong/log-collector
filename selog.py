@@ -70,11 +70,11 @@ def viewer(filename):
 @app.route('/download')
 def download():
     f = request.args.get('f')
-    if f == 'client.zip':
-        return send_from_directory(app.root_path, f, as_attachment=True, mimetype='application/zip')
+    if f in ['selog.service', 'selog-client.py', 'selog.sh']:
+        return send_from_directory(os.path.join(app.root_path,'client'), f,
+                as_attachment=True, mimetype='text/plain')
     return send_from_directory(LOG_PATH, f, as_attachment=True, mimetype='text/plain')
     
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
