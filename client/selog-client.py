@@ -13,11 +13,15 @@ SHUTDOWN_MSG = "exiting on signal 15"
 KERNEL_INIT_MSG = "kernel: Initializing cgroup subsys cpuset"
 
 
-# maybe...
 def last_down_time():
-    last_cmd = check_output(['last', '-FR', 'reboot']).strip()
-    last_boot = last_cmd.split('\n')[1]
-    str_down_time = ' '.join(last_boot.split()[9:14])
+    output = check_output(['last', '-FR', 'reboot']).strip().split('\n')
+    down_date = [d.split()[9:14] for d in output]
+    last_down= down_date[0]
+    for d in down_date:
+        if d != last_down:
+            last_down = d
+            break
+    str_down_time = ' '.join(last_down)
     down_time = datetime.strptime(str_down_time, '%c')
     return down_time
 
