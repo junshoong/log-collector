@@ -11,9 +11,15 @@ $.expr[':'].contains = $.expr.createPseudo(function(arg) {
     }
 });
 
-$('p:contains("fault")').addClass('mark');
-$('p:contains("fail")').addClass('mark');
-$('p:contains("error")').addClass('mark');
+$('p:contains("emerg")').addClass('fatal');
+$('p:contains("alert")').addClass('fatal');
+$('p:contains("crit")').addClass('fatal');
+$('p:contains("fatal")').addClass('fatal');
+$('p:contains("fault")').addClass('fatal');
+$('p:contains("fail")').addClass('error');
+$('p:contains("err")').addClass('error');
+$('p:contains("warn")').addClass('warn');
+$('p:contains("freez")').addClass('warn');
 $('p').click(function() {
     var str = $(this).text().split(' ').slice(5).join(' ');
     window.open('https://www.google.co.kr/search?q=' + str, '_blank');

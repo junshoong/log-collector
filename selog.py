@@ -13,8 +13,13 @@ app = Flask(__name__)
 LOG_PATH = app.root_path+'/logs'
 
 
-def save_file(request):
-    data = request.get_json()
+@app.route('/')
+def index():
+    files = os.listdir(LOG_PATH)
+    return render_template('index.html', files=files)
+
+
+def save_file(data):
     prefix = data.pop('prefix')
     for k, v in data.items():
         filename = prefix + k + '.log'
@@ -23,16 +28,11 @@ def save_file(request):
             f.write(v)
 
 
-@app.route('/')
-def index():
-    files = os.listdir(LOG_PATH)
-    return render_template('index.html', files=files)
-    
-
 @app.route('/collect', methods=['POST'])
 def collect():
     if request.method == 'POST':
-        save_file(request)
+        data = request.get_json()
+        save_file(data)
         return 'Collecting!'
 
 
